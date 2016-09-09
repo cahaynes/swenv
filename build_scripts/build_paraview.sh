@@ -2,6 +2,7 @@
 set -e
 
 export PARAVIEW_VERSION=$1
+export PARAVIEW_BUILD=$2
 
 echo "Building all paraview for ${UBCESLAB_SYSTEMTYPE:?undefined}"
 
@@ -12,7 +13,7 @@ mkdir -p ${UBCESLAB_SWENV_PREFIX:?undefined}/sourcesdir/paraview
 (cd $UBCESLAB_SWENV_PREFIX/sourcesdir/paraview
 
 if [ ! -f paraview-$PARAVIEW_VERSION.tar.gz ]; then
-  wget  --output-document=paraview-$PARAVIEW_VERSION.tar.gz "http://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v4.3&type=binary&os=linux64&downloadFile=ParaView-4.3.1-Linux-64bit-glibc-2.3.6.tar.gz" 
+  wget --output-document=paraview-$PARAVIEW_VERSION.tar.gz "http://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v${PARAVIEW_VERSION:0:3}&type=binary&os=linux64&downloadFile=ParaView-$PARAVIEW_VERSION-$PARAVIEW_BUILD.tar.gz"
   #echo "Couldn't find ParaView tarball $UBCESLAB_SWENV_PREFIX/sourcesdir/paraview/paraview-$PARAVIEW_VERSION.tar.gz"
   #echo "Need to download from http://www.paraview.org and movie it to the path above."
 fi
@@ -26,7 +27,7 @@ rm -rf $PARAVIEW_DIR
 mkdir -p $TOPDIR
 cd $TOPDIR
 tar xzf $UBCESLAB_SWENV_PREFIX/sourcesdir/paraview/paraview-$PARAVIEW_VERSION.tar.gz
-mv ParaView-$PARAVIEW_VERSION-Linux-64bit $PARAVIEW_DIR
+mv ParaView-$PARAVIEW_VERSION-$PARAVIEW_BUILD $PARAVIEW_DIR
 
 
 cd $CURRENT_DIR
